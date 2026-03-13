@@ -67,12 +67,16 @@ export default function AnalysisPage() {
       setCurrentExerciseIndex(prev => prev + 1)
       setSelectedAnswer(null)
       setShowExplanation(false)
-      setGame(new Chess(PositionExercises[currentExerciseIndex + 1].fen))
+      const newGame = new Chess()
+      newGame.load(PositionExercises[currentExerciseIndex + 1].fen)
+      setGame(newGame)
     } else {
       setCurrentExerciseIndex(0)
       setSelectedAnswer(null)
       setShowExplanation(false)
-      setGame(new Chess(PositionExercises[0].fen))
+      const newGame = new Chess()
+      newGame.load(PositionExercises[0].fen)
+      setGame(newGame)
     }
   }
 
@@ -161,7 +165,9 @@ export default function AnalysisPage() {
             whileTap={{ scale: 0.95 }}
             onClick={() => {
               setMode('exercise')
-              setGame(new Chess(PositionExercises[0].fen))
+              const newGame = new Chess()
+              newGame.load(PositionExercises[0].fen)
+              setGame(newGame)
             }}
             className={`px-6 py-3 rounded-xl font-bold transition-all ${
               mode === 'exercise'

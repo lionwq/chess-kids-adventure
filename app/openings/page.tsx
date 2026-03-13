@@ -103,13 +103,16 @@ export default function OpeningsPage() {
             setSelectedSquare(null)
             setPossibleMoves([])
 
+
             // 检查是否完成所有走法
             const opening = getCurrentOpening()
             const variation = getCurrentVariation()
-            const allMoves = [...opening.moves, ...variation.moves]
-            if (currentMoveIndex + 1 >= allMoves.length) {
-              // 完成开局
-              showCompletionMessage()
+            if (opening && variation) {
+              const allMoves = [...opening.moves, ...variation.moves]
+              if (currentMoveIndex + 1 >= allMoves.length) {
+                // 完成开局
+                showCompletionMessage()
+              }
             }
           }, 1000)
         } else {
@@ -274,7 +277,7 @@ export default function OpeningsPage() {
                 <ChessBoard
                   fen={game.fen()}
                   onSquareClick={handleSquareClick}
-                  selectedSquare={selectedSquare}
+                  selectedSquare={selectedSquare || undefined}
                   possibleMoves={possibleMoves}
                   isInteractive={true}
                 />
@@ -407,7 +410,7 @@ export default function OpeningsPage() {
                   <div className="flex justify-between text-sm text-gray-600 mb-2">
                     <span>已完成 {currentMoveIndex} 步</span>
                     <span>
-                      共 {getCurrentOpening()?.moves.length + getCurrentVariation()?.moves.length} 步
+                      共 {(getCurrentOpening()?.moves.length || 0) + (getCurrentVariation()?.moves.length || 0)} 步
                     </span>
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-4 overflow-hidden">
@@ -415,7 +418,7 @@ export default function OpeningsPage() {
                       initial={{ width: 0 }}
                       animate={{
                         width: `${((currentMoveIndex) / (
-                          getCurrentOpening()?.moves.length + getCurrentVariation()?.moves.length
+                          (getCurrentOpening()?.moves.length || 0) + (getCurrentVariation()?.moves.length || 0)
                         )) * 100}%`
                       }}
                       className="bg-gradient-to-r from-purple-500 to-pink-500 h-full rounded-full"

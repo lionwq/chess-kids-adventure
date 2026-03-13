@@ -33,7 +33,9 @@ export default function TacticsPage() {
 
   useEffect(() => {
     if (currentPuzzle) {
-      setGame(new Chess(currentPuzzle.fen))
+      const newGame = new Chess()
+      newGame.load(currentPuzzle.fen)
+      setGame(newGame)
       setMoveIndex(0)
       setIsCorrect(null)
       setShowHint(false)
@@ -53,7 +55,7 @@ export default function TacticsPage() {
     // 加载总分
     const savedScore = localStorage.getItem('totalScore')
     if (savedScore) {
-      setTotalScore(parseInt(saved))
+      setTotalScore(parseInt(savedScore))
     }
   }, [])
 
@@ -154,7 +156,9 @@ export default function TacticsPage() {
   }
 
   const resetPuzzle = () => {
-    setGame(new Chess(currentPuzzle.fen))
+    const newGame = new Chess()
+    newGame.load(currentPuzzle.fen)
+    setGame(newGame)
     setMoveIndex(0)
     setIsCorrect(null)
     setSelectedSquare(null)
@@ -344,7 +348,7 @@ export default function TacticsPage() {
                 <ChessBoard
                   fen={game.fen()}
                   onSquareClick={handleSquareClick}
-                  selectedSquare={selectedSquare}
+                  selectedSquare={selectedSquare || undefined}
                   possibleMoves={possibleMoves}
                   isInteractive={true}
                 />
